@@ -34,7 +34,8 @@ public class ReaderService implements UserOperations {
             String dueDate = LocalDate.now().plusDays(14).toString();
             reader.borrowBook(book, dueDate);
             book.setAvailable(false);
-            System.out.println("Book borrowed successfully: " + book.getTitle());
+            double fee = calculateFee(book);
+            System.out.println("Book borrowed successfully: " + book.getTitle() + ". Fee: $" + fee);
         } else {
             System.out.println("Borrowing limit reached.");
         }
@@ -60,8 +61,9 @@ public class ReaderService implements UserOperations {
         LocalDate returned = LocalDate.now();
         long overdueDays = ChronoUnit.DAYS.between(due, returned);
 
+        double penalty = 0;
         if (overdueDays > 0) {
-            double penalty = overdueDays * 1.5;
+            penalty = overdueDays * 1.5;
             System.out.println("Book returned late. Penalty: $" + penalty);
         } else {
             System.out.println("Book returned on time.");
@@ -69,5 +71,10 @@ public class ReaderService implements UserOperations {
 
         reader.returnBook(book);
         book.setAvailable(true);
+        System.out.println("Total fee to be refunded: $" + penalty);
+    }
+
+    private double calculateFee(Book book) {
+        return 5.0;
     }
 }

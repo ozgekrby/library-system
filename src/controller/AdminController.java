@@ -48,11 +48,15 @@ public class AdminController {
             System.out.println("1. Register Admin");
             System.out.println("2. Add Book");
             System.out.println("3. Remove Book");
-            System.out.println("4. Add Category");
-            System.out.println("5. View All Books");
-            System.out.println("6. View All Categories");
-            System.out.println("7. Exit");
-            System.out.print("Choose an option (1-7): ");
+            System.out.println("4. Update Book");
+            System.out.println("5. Add Category");
+            System.out.println("6. View All Books");
+            System.out.println("7. View All Categories");
+            System.out.println("8. View Books by Author");
+            System.out.println("9. View Books by Title");
+            System.out.println("10. View Books by Category");
+            System.out.println("11. Exit");
+            System.out.print("Choose an option (1-11): ");
             int choice = scanner.nextInt();
             scanner.nextLine();
 
@@ -69,7 +73,6 @@ public class AdminController {
                     String category = scanner.nextLine();
                     Book book = new Book(bookId, title, author, category);
                     bookService.addBook(book);
-                    System.out.println("Book added successfully: " + title);
                 }
                 case 3 -> {
                     System.out.print("Enter book ID to remove: ");
@@ -77,27 +80,52 @@ public class AdminController {
                     bookService.removeBook(bookId);
                 }
                 case 4 -> {
+                    System.out.print("Enter book ID to update: ");
+                    String bookId = scanner.nextLine();
+                    System.out.print("Enter new title: ");
+                    String title = scanner.nextLine();
+                    System.out.print("Enter new author: ");
+                    String author = scanner.nextLine();
+                    System.out.print("Enter new category: ");
+                    String category = scanner.nextLine();
+                    bookService.updateBook(bookId, title, author, category);
+                }
+                case 5 -> {
                     System.out.print("Enter category ID: ");
                     String categoryId = scanner.nextLine();
                     System.out.print("Enter category name: ");
                     String categoryName = scanner.nextLine();
                     Category category = new Category(categoryId, categoryName);
                     categoryService.addCategory(category);
-                    System.out.println("Category added successfully: " + categoryName);
-                }
-                case 5 -> {
-                    System.out.println("All Books:");
-                    bookService.getAllBooks().forEach(book -> System.out.println("- " + book.getTitle()));
                 }
                 case 6 -> {
-                    System.out.println("All Categories:");
-                    categoryService.getAllCategories().forEach(category -> System.out.println("- " + category.getName()));
+                    System.out.println("All Books:");
+                    bookService.getAllBooks().forEach(book -> System.out.println(book.getTitle()));
                 }
                 case 7 -> {
+                    System.out.println("All Categories:");
+                    categoryService.getAllCategories().forEach(category -> System.out.println(category.getName()));
+                }
+                case 8 -> {
+                    System.out.print("Enter author name: ");
+                    String author = scanner.nextLine();
+                    bookService.getBooksByAuthor(author).forEach(book -> System.out.println(book.getTitle()));
+                }
+                case 9 -> {
+                    System.out.print("Enter book title: ");
+                    String title = scanner.nextLine();
+                    bookService.getBooksByTitle(title).forEach(book -> System.out.println(book.getTitle()));
+                }
+                case 10 -> {
+                    System.out.print("Enter category name: ");
+                    String category = scanner.nextLine();
+                    bookService.getBooksByCategory(category).forEach(book -> System.out.println(book.getTitle()));
+                }
+                case 11 -> {
                     System.out.println("Exiting admin panel.");
                     return;
                 }
-                default -> System.out.println("Invalid choice. Please enter a number between 1 and 7.");
+                default -> System.out.println("Invalid choice. Please enter a number between 1 and 11.");
             }
         }
     }
