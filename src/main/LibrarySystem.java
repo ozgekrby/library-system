@@ -22,7 +22,7 @@ public class LibrarySystem {
         ReaderService readerService = new ReaderService();
 
         AdminController adminController = new AdminController(adminService, categoryService, bookService);
-        ReaderController readerController = new ReaderController(readerService);
+        ReaderController readerController = new ReaderController(readerService,bookService);
 
         while (true) {
             System.out.println("Welcome to the Library System");

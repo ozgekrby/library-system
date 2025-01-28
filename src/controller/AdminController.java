@@ -55,8 +55,9 @@ public class AdminController {
             System.out.println("8. View Books by Author");
             System.out.println("9. View Books by Title");
             System.out.println("10. View Books by Category");
-            System.out.println("11. Exit");
-            System.out.print("Choose an option (1-11): ");
+            System.out.println("11. View Book by ID");
+            System.out.println("12. Exit");
+            System.out.print("Choose an option (1-12): ");
             int choice = scanner.nextInt();
             scanner.nextLine();
 
@@ -100,7 +101,7 @@ public class AdminController {
                 }
                 case 6 -> {
                     System.out.println("All Books:");
-                    bookService.getAllBooks().forEach(book -> System.out.println(book.getTitle()));
+                    bookService.getAllBooks().forEach(book -> printBookDetails(book));
                 }
                 case 7 -> {
                     System.out.println("All Categories:");
@@ -109,24 +110,43 @@ public class AdminController {
                 case 8 -> {
                     System.out.print("Enter author name: ");
                     String author = scanner.nextLine();
-                    bookService.getBooksByAuthor(author).forEach(book -> System.out.println(book.getTitle()));
+                    bookService.getBooksByAuthor(author).forEach(book -> printBookDetails(book));
                 }
                 case 9 -> {
                     System.out.print("Enter book title: ");
                     String title = scanner.nextLine();
-                    bookService.getBooksByTitle(title).forEach(book -> System.out.println(book.getTitle()));
+                    bookService.getBooksByTitle(title).forEach(book -> printBookDetails(book));
                 }
                 case 10 -> {
                     System.out.print("Enter category name: ");
                     String category = scanner.nextLine();
-                    bookService.getBooksByCategory(category).forEach(book -> System.out.println(book.getTitle()));
+                    bookService.getBooksByCategory(category).forEach(book -> printBookDetails(book));
                 }
                 case 11 -> {
+                    System.out.print("Enter book ID: ");
+                    String bookId = scanner.nextLine();
+                    Book book = bookService.getBookById(bookId);
+                    if (book != null) {
+                        printBookDetails(book);
+                    } else {
+                        System.out.println("Book not found.");
+                    }
+                }
+                case 12 -> {
                     System.out.println("Exiting admin panel.");
                     return;
                 }
                 default -> System.out.println("Invalid choice. Please enter a number between 1 and 11.");
             }
         }
+    }
+
+    private void printBookDetails(Book book) {
+        System.out.println("ID: " + book.getId());
+        System.out.println("Title: " + book.getTitle());
+        System.out.println("Author: " + book.getAuthor());
+        System.out.println("Category: " + book.getCategory());
+        System.out.println("Available: " + book.isAvailable());
+        System.out.println("---------------------------");
     }
 }
